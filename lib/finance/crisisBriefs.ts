@@ -1,5 +1,3 @@
-// lib/finance/crisisBriefs.ts
-
 export type NewsItem = {
   title: string;
   source: string;
@@ -27,17 +25,17 @@ export const crisisBriefs: Record<string, CrisisBrief> = {
     summary:
       "A credit-driven housing boom unwound into a banking crisis. Losses in mortgage-related products spread through the system, freezing credit and driving a global recession.",
     drivers: [
-      "Housing bubble + rising mortgage defaults",
-      "High leverage + complex structured products",
-      "Credit markets froze as trust collapsed",
-      "Forced deleveraging and broad risk selloff",
+      "Housing Bubble + Rising Mortgage Defaults",
+      "High Leverage + Complex Structured Products",
+      "Credit Markets Froze As Trust Collapsed",
+      "Forced Deleveraging and Broad Risk Selloff",
     ],
     keyDates: [
-      { date: "2008-09-15", label: "Lehman bankruptcy" },
-      { date: "2008-10-03", label: "TARP passed in the U.S." },
-      { date: "2009-03-09", label: "Major equity market low (widely cited)" },
+      { date: "2008-09-15", label: "Lehman Brothers Bankruptcy" },
+      { date: "2008-10-03", label: "TARP Passed In The U.S." },
+      { date: "2009-03-09", label: "Major Equity Market Low" },
     ],
-    whatWorked: ["Long Treasuries", "Gold", "Cash / short duration"],
+    whatWorked: ["Long Treasuries", "Gold", "Cash / Short Duration"],
     news: [
       {
         title: "The Day Lehman Brothers Went Under",
@@ -54,31 +52,31 @@ export const crisisBriefs: Record<string, CrisisBrief> = {
     ],
   },
 
-  "COVID Crash (2020-02 to 2020-04)": {
+  "COVID-19 Crash (2020-02 to 2020-04)": {
     title: "COVID-19 Market Crash",
     summary:
       "A sudden global shutdown triggered a fast earnings shock and extreme uncertainty. Liquidity stress hit multiple asset classes until large monetary and fiscal support arrived.",
     drivers: [
-      "Lockdowns and demand collapse",
-      "Supply chain disruption",
-      "Dash-for-cash liquidity stress",
-      "Policy response: rate cuts, QE, stimulus",
+      "Lockdowns and Demand Collapse",
+      "Supply Chain Disruption",
+      "Dash-for-cash Liquidity Stress",
+      "Policy Response: Rate Cuts, QE, Stimulus",
     ],
     keyDates: [
-      { date: "2020-03-11", label: "WHO declares pandemic" },
-      { date: "2020-03-23", label: "Major market low + policy pivot" },
-      { date: "2020-04-09", label: "Support expanded for credit markets" },
+      { date: "2020-03-11", label: "WHO Declares Pandemic" },
+      { date: "2020-03-23", label: "Major Equity Market Low + Policy Pivot" },
+      { date: "2020-04-09", label: "Support Expanded For Credit Markets" },
     ],
-    whatWorked: ["Treasuries", "Gold", "High-quality growth (context-dependent)"],
+    whatWorked: ["Treasuries", "Gold", "High-Quality Growth (Context-Dependent)"],
     news: [
       {
-        title: "WHO declares COVID-19 a pandemic",
-        source: "World Health Organization",
+        title: "WHO Declares COVID-19 A Pandemic",
+        source: "National Library of Medicine",
         date: "2020-03-11",
-        url: "https://www.who.int/director-general/speeches/detail/who-director-general-s-opening-remarks-at-the-media-briefing-on-covid-19---11-march-2020",
+        url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC7569573/",
       },
       {
-        title: "Wall Street tumbles as coronavirus economic damage mounts",
+        title: "Dow Sinks, Virus Pushes It To Sharpest Quarterly Plunge in Over Three Decades",
         source: "Reuters",
         date: "2020-03-31",
         url: "https://www.reuters.com/article/business/dow-sinks-virus-pushes-it-to-sharpest-quarterly-plunge-in-over-three-decades-idUSKBN21I1C5/",
@@ -91,20 +89,20 @@ export const crisisBriefs: Record<string, CrisisBrief> = {
     summary:
       "Inflation surged and central banks tightened quickly. Rising yields hit both bonds and long-duration equities, producing a painful stock–bond drawdown.",
     drivers: [
-      "High inflation pressures",
-      "Aggressive central bank hikes",
-      "Rising real yields compress valuations",
-      "Bond repricing as yields moved up",
+      "High Inflation Pressures",
+      "Aggressive Central Bank Hikes",
+      "Rising Real Yields Compress Valuations",
+      "Bond Repricing As Yields Moved up",
     ],
     keyDates: [
-      { date: "2022-06-15", label: "Fed hikes 75 bps" },
-      { date: "2022-09-21", label: "Higher-for-longer guidance" },
-      { date: "2022-10-12", label: "Rates volatility remains elevated" },
+      { date: "2022-06-15", label: "Fed Hikes 75 bps" },
+      { date: "2022-09-21", label: "Higher-for-longer Guidance" },
+      { date: "2022-10-12", label: "Rates Volatility Remains Elevated" },
     ],
-    whatWorked: ["Cash / T-bills", "Short duration", "Energy tilt (depends)"],
+    whatWorked: ["Cash / T-Bills", "Short Duration", "Energy Tilt (depends on crisis phase)"],
     news: [
       {
-        title: "Fed hikes rates by 0.75 percentage point, flags slowing economy",
+        title: "Fed Hikes Rates By 0.75 Percentage Point, Flags Slowing Economy",
         source: "Reuters",
         date: "2022-06-15",
         url: "https://www.reuters.com/markets/us/fed-hikes-rates-by-075-percentage-point-flags-slowing-economy-2022-06-15/",

@@ -4,17 +4,14 @@ function toISODate(d: Date) {
   return d.toISOString().slice(0, 10);
 }
 
-// Stooq daily CSV endpoint:
-// https://stooq.com/q/d/l/?s=spy.us&i=d
 async function fetchStooqDaily(ticker: string) {
-  const symbol = `${ticker.toLowerCase()}.us`; // SPY -> spy.us
+  const symbol = `${ticker.toLowerCase()}.us`;
   const url = `https://stooq.com/q/d/l/?s=${encodeURIComponent(symbol)}&i=d`;
   const res = await fetch(url, { cache: "no-store" });
-  if (!res.ok) throw new Error(`Stooq fetch failed for ${ticker} (${res.status})`);
+  if (!res.ok) throw new Error(`Stooq Fetch Failed For ${ticker} (${res.status})`);
 
   const text = await res.text();
   const lines = text.trim().split("\n");
-  // header: Date,Open,High,Low,Close,Volume
   if (lines.length < 2) return [];
 
   const out: { date: string; close: number }[] = [];
@@ -38,10 +35,10 @@ export async function POST(req: Request) {
     const end = String(body.end ?? "");
 
     if (!tickers.length) {
-      return Response.json({ error: "No tickers provided" }, { status: 400 });
+      return Response.json({ error: "No Tickers Provided" }, { status: 400 });
     }
     if (!start || !end) {
-      return Response.json({ error: "Missing start/end" }, { status: 400 });
+      return Response.json({ error: "Missing Start/End" }, { status: 400 });
     }
 
     const startD = new Date(start);
@@ -52,13 +49,12 @@ export async function POST(req: Request) {
     for (const t of tickers) {
       try {
         const rows = await fetchStooqDaily(t);
-        // Filter date range
         prices[t] = rows.filter((r) => {
           const d = new Date(r.date);
           return d >= startD && d <= endD;
         });
       } catch (e: any) {
-        console.error(`Ticker failed ${t}:`, e?.message ?? e);
+        console.error(`Ticker Failed ${t}:`, e?.message ?? e);
         prices[t] = [];
       }
     }
@@ -67,7 +63,7 @@ export async function POST(req: Request) {
   } catch (e: any) {
     console.error(e);
     return Response.json(
-      { error: "Server error in /api/prices", detail: String(e?.message ?? e) },
+      { error: "Server Error In /api/prices", detail: String(e?.message ?? e) },
       { status: 500 }
     );
   }
