@@ -1,12 +1,28 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Controls from "@/components/Controls";
 import MetricCards from "@/components/MetricCards";
 import Charts from "@/components/Charts";
 import { CRISES, DEFAULT_TICKERS, type CrisisKey } from "@/lib/crises";
 import { simulate } from "@/lib/finance/simulate";
 import { PricesByTicker, Rebalance, SimulationResult } from "@/lib/finance/types";
+
+const COMMON_TSX = new Set([
+  "TD", "RY", "BNS", "BMO", "CM",
+  "ENB", "TRP", "TC", "PPL", "CNQ", "SU",
+  "CNR", "CP", "CPKC",
+  "BCE", "T", "RCI",
+  "SHOP", "ATD", "L", "WCN", "FTS", "EMA",
+]);
+
+function maybeAddCanadaSuffix(ticker: string, enable: boolean) {
+  if (!enable) return ticker;
+  if (!ticker) return ticker;
+  if (ticker.includes(".")) return ticker;
+  if (COMMON_TSX.has(ticker)) return `${ticker}.TO`;
+  return ticker;
+}
 
 export default function Page() {
   const crisisNames = Object.keys(CRISES) as CrisisKey[];
@@ -21,14 +37,43 @@ export default function Page() {
   const [rebalance, setRebalance] = useState<Rebalance>("monthly");
 
   const [recoveryMonths, setRecoveryMonths] = useState<number>(24);
+  const [warning, setWarning] = useState<string | null>(null);
+
+  const [autoCanadaSuffix, setAutoCanadaSuffix] = useState<boolean>(false);
 
   const [running, setRunning] = useState(false);
   const [result, setResult] = useState<SimulationResult | null>(null);
 
-  const tickersList = useMemo(
-    () => tickers.split(",").map((t) => t.trim().toUpperCase()).filter(Boolean),
-    [tickers]
-  );
+  const tickersList = useMemo(() => {
+    return tickers
+      .split(",")
+      .map((t) => t.trim().toUpperCase())
+      .filter(Boolean)
+      .map((t) => maybeAddCanadaSuffix(t, autoCanadaSuffix));
+  }, [tickers, autoCanadaSuffix]);
+
+  useEffect(() => {
+    setWeights((prev) => {
+      const next: Record<string, number> = {};
+
+      for (const t of tickersList) {
+        next[t] = prev[t] ?? 1;
+      }
+
+      const prevKeys = Object.keys(prev);
+      const nextKeys = Object.keys(next);
+
+      if (prevKeys.length !== nextKeys.length) return next;
+
+      for (const k of nextKeys) {
+        if (!(k in prev)) return next;
+        if (prev[k] !== next[k]) return next;
+      }
+
+      return prev;
+    });
+  }, [tickersList]);
+
 
   function addMonthsISO(iso: string, months: number) {
     const d = new Date(`${iso}T00:00:00Z`);
@@ -38,15 +83,28 @@ export default function Page() {
 
   function clearResults() {
     setResult(null);
+    setWarning(null);
   }
+
+  useEffect(() => {
+    setWeights((prev) => {
+      const next: Record<string, number> = {};
+      for (const t of tickersList) {
+        next[t] = typeof prev[t] === "number" ? prev[t] : 1;
+      }
+      return next;
+    });
+
+    clearResults();
+  }, [tickersList.join("|")]);
 
   async function run() {
     setRunning(true);
     setResult(null);
+    setWarning(null);
 
     try {
       const { start, end } = CRISES[crisisName];
-
       const fetchEnd = addMonthsISO(end, recoveryMonths);
 
       const res = await fetch("/api/prices", {
@@ -59,9 +117,36 @@ export default function Page() {
       const data = text ? JSON.parse(text) : {};
       if (!res.ok) throw new Error(data?.error ?? `API failed (${res.status})`);
 
-      const prices: PricesByTicker = data.prices;
-      const sim = simulate(prices, weights, rebalance, 100);
+      const prices: PricesByTicker = data.prices ?? {};
 
+      const missing: string[] = [];
+      const usable: string[] = [];
+
+      for (const t of tickersList) {
+        const series = prices[t] ?? [];
+        if (!Array.isArray(series) || series.length < 5) missing.push(t);
+        else usable.push(t);
+      }
+
+      if (usable.length < 1) {
+        throw new Error(
+          `No tickers have enough data in this window. Try a later crisis window or different tickers.`
+        );
+      }
+
+      if (missing.length > 0) {
+        setWarning(
+          `Dropped ${missing.join(", ")} (no history in this crisis window). Try a later crisis window if you want them included.`
+        );
+      }
+
+      const filteredWeights: Record<string, number> = {};
+      for (const t of usable) filteredWeights[t] = weights[t] ?? 1;
+
+      const filteredPrices: PricesByTicker = {};
+      for (const t of usable) filteredPrices[t] = prices[t];
+
+      const sim = simulate(filteredPrices, filteredWeights, rebalance, 100);
       setResult(sim);
     } catch (e: any) {
       alert(e?.message ?? "Something went wrong");
@@ -131,6 +216,23 @@ export default function Page() {
             <span className="ml-1 text-xs text-(--muted)">
               (Used for recovery metrics, not the displayed crisis dates.)
             </span>
+
+            <button
+              type="button"
+              onClick={() => {
+                setAutoCanadaSuffix((v) => !v);
+                clearResults();
+              }}
+              className={[
+                "ml-auto rounded-full border px-3 py-1 text-xs font-semibold transition",
+                autoCanadaSuffix
+                  ? "border-(--primary) bg-white text-(--primary)"
+                  : "border-(--border) bg-white/70 text-(--muted) hover:bg-white",
+              ].join(" ")}
+              title='When on: auto-adds ".TO" only for common TSX tickers (TD, RY, ENB...). You can still type ".TO" manually for any ticker.'
+            >
+              Canada Suffix: {autoCanadaSuffix ? "Smart On" : "Off"}
+            </button>
           </div>
         </div>
 
@@ -174,6 +276,11 @@ export default function Page() {
               </pre>
             </div>
           </div>
+          {warning && (
+            <div className="mt-3 rounded-2xl border border-(--border) bg-white/70 px-4 py-3 text-sm text-(--muted)">
+              <span className="font-semibold text-(--text)">Note:</span> {warning}
+            </div>
+          )}
         </div>
       </div>
     </main>
