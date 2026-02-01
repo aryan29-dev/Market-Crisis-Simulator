@@ -103,7 +103,7 @@ Tickers with insufficient data during the selected crisis window are automatical
 ## Installation & Setup
 
 ```text
-git clone https://github.com/aryan29-dev/market-crisis-simulator.git
+git clone https://github.com/aryan29-dev/Market-Crisis-Simulator.git
 cd market-crisis-simulator
 npm install
 npm run dev
