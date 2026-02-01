@@ -82,6 +82,7 @@ market-crisis-simulator/
 ├── tailwind.config.ts
 ├── tsconfig.json
 ├── vercel.json
+├── LICENSE
 └── README.md
 ```
 ---
