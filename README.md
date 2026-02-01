@@ -2,7 +2,7 @@
 
 An interactive portfolio stress-testing web application that allows users to replay historical market crises, analyze drawdowns, and evaluate recovery behavior across mixed U.S. and Canadian portfolios.
 
-Built with **Next.js**, **TypeScript**, and **Recharts**, this project is designed for financial analysis, portfolio risk exploration, and educational use.
+Built with **Next.js**, **TypeScript**, and **Recharts**, this project is designed for financial analysis and portfolio risk exploration.
 
 ---
 
@@ -51,7 +51,7 @@ Built with **Next.js**, **TypeScript**, and **Recharts**, this project is design
 
 ## 📂 Project Structure
 
-''' text
+```text
 market-crisis-simulator/
 ├── app/
 │   ├── api/
@@ -83,7 +83,7 @@ market-crisis-simulator/
 ├── tsconfig.json
 ├── vercel.json
 └── README.md
-'''
+```
 ---
 
 ## 📈 How It Works
@@ -100,8 +100,12 @@ market-crisis-simulator/
 Tickers with insufficient data during the selected crisis window are automatically excluded.
 
 ## Installation & Setup
+
+```text
 git clone https://github.com/aryan29-dev/market-crisis-simulator.git
 cd market-crisis-simulator
 npm install
 npm run dev
 Open: http://localhost:3000
+```
+
