@@ -177,7 +177,8 @@ async function fetchWithFallback(
       if (hasEnoughData(windowRows, minPointsInWindow)) {
         return { provider: "yahoo", symbolUsed: cand, rows: windowRows };
       }
-    } catch {
+    } catch (e) {
+      // continue
     }
   }
 
@@ -192,7 +193,8 @@ async function fetchWithFallback(
         if (hasEnoughData(windowRows, minPointsInWindow)) {
           return { provider: "stooq", symbolUsed: sym, rows: windowRows };
         }
-      } catch {
+      } catch (e) {
+        // continue
       }
     }
   }
