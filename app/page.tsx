@@ -165,7 +165,7 @@ export default function Page() {
                 Market Stress & Crisis Simulator
               </div>
               <div className="mt-1 text-sm text-(--muted)">
-                Replay crisis windows, measure drawdowns, and evaluate how a portfolio recovers after shocks.
+                A portfolio stress-testing engine for analyzing drawdowns, recovery speed, and risk-adjusted returns across historical market crises.
               </div>
             </div>
 

@@ -99,7 +99,7 @@ export const crisisBriefs: Record<string, CrisisBrief> = {
       { date: "2022-09-21", label: "Higher-for-longer Guidance" },
       { date: "2022-10-12", label: "Rates Volatility Remains Elevated" },
     ],
-    whatWorked: ["Cash / T-Bills", "Short Duration", "Energy Tilt (depends on crisis phase)"],
+    whatWorked: ["Cash / T-Bills", "Short Duration", "Energy Tilt (Depends On Crisis Phase)"],
     news: [
       {
         title: "How 2022 Shocked, Rocked And Rolled Global Markets",
