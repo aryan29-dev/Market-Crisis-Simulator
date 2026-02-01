@@ -165,7 +165,7 @@ export default function Page() {
                 Market Stress & Crisis Simulator
               </div>
               <div className="mt-1 text-sm text-(--muted)">
-                A portfolio stress-testing engine for analyzing drawdowns, recovery speed, and risk-adjusted returns across historical market crises.
+                A portfolio stress-testing engine for analyzing drawdowns, recovery speed, and risk-adjusted performance across historical market crises — not for optimizing returns.
               </div>
             </div>
 

@@ -121,16 +121,20 @@ export default function Charts({ result }: { result: SimulationResult | null }) 
 
   return (
     <div className="space-y-4">
-      <div className="card p-5">
+      <div className="card p-3 sm:p-5">
         <div className="flex items-baseline justify-between gap-3">
           <div>
             <div className="text-base font-extrabold text-(--text)">Equity Curve</div>
-            <div className="mt-1 text-sm text-(--muted)">
+            <div className="mt-0.5 sm:mt-1 text-xs sm:text-sm text-(--muted)">
               Portfolio value over time during the selected crisis window (normalized to 100 at start). Markers show the peak,
               trough, and recovery (if it happens).
             </div>
           </div>
-
+          {isNarrow && (
+            <div className="mt-2 text-xs text-(--muted)">
+              Markers: Peak • Trough • Recovery (tap chart for values)
+            </div>
+          )}
           <div className="hidden sm:block shrink-0 whitespace-nowrap rounded-full border border-(--border) bg-white/70 px-3 py-1 text-xs font-semibold text-(--muted)">
             {insight ? (
               <>
@@ -148,7 +152,7 @@ export default function Charts({ result }: { result: SimulationResult | null }) 
         </div>
 
         <div className="mt-4 w-full overflow-hidden rounded-2xl bg-white/30">
-          <div className="relative w-full aspect-4/3 sm:aspect-video">
+          <div className="relative w-full aspect-5/3 sm:aspect-video">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={equity} margin={equityMargin}>
                 <CartesianGrid strokeDasharray="3 3" />
@@ -201,46 +205,38 @@ export default function Charts({ result }: { result: SimulationResult | null }) 
                       x={insight.peak.date}
                       y={insight.peak.value}
                       r={4}
-                      label={{
-                        value: "Peak",
-                        position: "insideTop",
-                        fontSize: 11,
-                        dx: -24,
-                        dy: -6,
-                        fill: "#475569",
-                      }}
+                      label={
+                        isNarrow
+                          ? undefined
+                          : { value: "Peak", position: "insideTop", fontSize: 11, dx: -24, dy: -6, fill: "#475569" }
+                      }
                     />
+
                     <ReferenceDot
                       x={insight.trough.date}
                       y={insight.trough.value}
                       r={4}
-                      label={{
-                        value: "Trough",
-                        position: "insideBottom",
-                        fontSize: 11,
-                        dx: -26,
-                        dy: 6,
-                        fill: "#475569",
-                      }}
+                      label={
+                        isNarrow
+                          ? undefined
+                          : { value: "Trough", position: "insideBottom", fontSize: 11, dx: -26, dy: 6, fill: "#475569" }
+                      }
                     />
+
                     {insight.recovery && (
                       <ReferenceDot
                         x={insight.recovery.date}
                         y={insight.recovery.value}
                         r={4}
-                        label={{
-                          value: "Recovered",
-                          position: "insideTop",
-                          fontSize: 11,
-                          dx: -32,
-                          dy: -6,
-                          fill: "#475569",
-                        }}
+                        label={
+                          isNarrow
+                            ? undefined
+                            : { value: "Recovered", position: "insideTop", fontSize: 11, dx: -32, dy: -6, fill: "#475569" }
+                        }
                       />
                     )}
                   </>
                 )}
-
                 <Line type="monotone" dataKey="value" dot={false} strokeWidth={2.5} />
               </LineChart>
             </ResponsiveContainer>
@@ -248,11 +244,11 @@ export default function Charts({ result }: { result: SimulationResult | null }) 
         </div>
       </div>
 
-      <div className="card p-5">
+      <div className="card p-3 sm:p-5">
         <div className="flex items-baseline justify-between gap-3">
           <div>
             <div className="text-base font-extrabold text-(--text)">Drawdown</div>
-            <div className="mt-1 text-sm text-(--muted)">
+            <div className="mt-0.5 sm:mt-1 text-xs sm:text-sm text-(--muted)">
               Percent drop from the portfolio’s previous peak (0% means “at a new high”).
             </div>
           </div>
@@ -309,20 +305,23 @@ export default function Charts({ result }: { result: SimulationResult | null }) 
                   labelFormatter={(lab) => `Date: ${lab}`}
                   formatter={(v) => [`${(Number(v) * 100).toFixed(2)}%`, "Drawdown"]}
                 />
-
                 {insight && (
                   <ReferenceDot
                     x={insight.worstDrawdown.date}
                     y={insight.worstDrawdown.value}
                     r={4}
-                    label={{
-                      value: "Max DD",
-                      position: "insideBottom",
-                      fontSize: 11,
-                      dx: -26,
-                      dy: 4,
-                      fill: "#475569",
-                    }}
+                    label={
+                      isNarrow
+                        ? undefined
+                        : {
+                          value: "Max DD",
+                          position: "insideBottom",
+                          fontSize: 11,
+                          dx: -26,
+                          dy: 12,
+                          fill: "#475569",
+                        }
+                    }
                   />
                 )}
                 <Line type="monotone" dataKey="value" dot={false} strokeWidth={2.5} />
