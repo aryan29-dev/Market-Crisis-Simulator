@@ -126,7 +126,7 @@ export default function Charts({ result }: { result: SimulationResult | null }) 
           <div>
             <div className="text-base font-extrabold text-(--text)">Equity Curve</div>
             <div className="mt-1 text-sm text-(--muted)">
-              Portfolio value over time during the selected crisis window. Markers show the peak,
+              Portfolio value over time during the selected crisis window (normalized to 100 at start). Markers show the peak,
               trough, and recovery (if it happens).
             </div>
           </div>
