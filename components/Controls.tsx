@@ -47,7 +47,7 @@ export default function Controls(props: Props) {
     const brief = crisisBriefs[props.crisisName];
 
     return (
-        <div className="card p-4">
+        <div className="card p-5">
             <div className="space-y-4">
                 <div>
                     <div className="text-sm font-semibold text-(--text)">Crisis Window</div>

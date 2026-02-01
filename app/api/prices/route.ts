@@ -180,7 +180,7 @@ async function fetchWithFallback(
     } catch {
     }
   }
-  
+
   for (const cand of candidates) {
     const stooqSymbols = buildStooqSymbolsFromCandidate(cand);
     for (const sym of stooqSymbols) {

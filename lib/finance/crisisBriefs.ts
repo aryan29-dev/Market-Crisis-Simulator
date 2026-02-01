@@ -102,10 +102,10 @@ export const crisisBriefs: Record<string, CrisisBrief> = {
     whatWorked: ["Cash / T-Bills", "Short Duration", "Energy Tilt (depends on crisis phase)"],
     news: [
       {
-        title: "Fed Hikes Rates By 0.75 Percentage Point, Flags Slowing Economy",
+        title: "How 2022 Shocked, Rocked And Rolled Global Markets",
         source: "Reuters",
-        date: "2022-06-15",
-        url: "https://www.reuters.com/markets/us/fed-hikes-rates-by-075-percentage-point-flags-slowing-economy-2022-06-15/",
+        date: "2022-12-30",
+        url: "https://www.reuters.com/markets/global-markets-wrapup-1-pix-2022-12-22/",
       },
       {
         title: "Fed Raises Rates by 0.75 Percentage Point, Largest Increase Since 1994",

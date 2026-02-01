@@ -31,7 +31,6 @@ function fmtMonthYear(iso: string) {
 export default function Charts({ result }: { result: SimulationResult | null }) {
   const [isNarrow, setIsNarrow] = useState(false);
 
-  // iOS + small screens: reduce margins so the plot area doesn't get crushed
   useEffect(() => {
     const update = () => setIsNarrow(window.innerWidth < 640);
     update();
@@ -39,7 +38,6 @@ export default function Charts({ result }: { result: SimulationResult | null }) 
     return () => window.removeEventListener("resize", update);
   }, []);
 
-  // iOS Safari sometimes measures containers wrong on first paint
   useEffect(() => {
     const kick = () => window.dispatchEvent(new Event("resize"));
     kick();
@@ -50,7 +48,7 @@ export default function Charts({ result }: { result: SimulationResult | null }) 
   if (!result) {
     return (
       <div className="card p-6 text-sm text-neutral-600">
-        Run a stress test to see charts.
+        Run A Stress Test To See The Charts!
       </div>
     );
   }
@@ -75,7 +73,6 @@ export default function Charts({ result }: { result: SimulationResult | null }) 
 
   return (
     <div className="space-y-4">
-      {/* Equity */}
       <div className="card p-5">
         <div className="flex items-baseline justify-between gap-3">
           <div>
@@ -90,9 +87,8 @@ export default function Charts({ result }: { result: SimulationResult | null }) 
           </div>
         </div>
 
-        {/* ✅ iOS-safe responsive box */}
         <div className="mt-4 w-full overflow-hidden rounded-2xl bg-white/30">
-          <div className="relative w-full aspect-[4/3] sm:aspect-[16/9]">
+          <div className="relative w-full aspect-4/3 sm:aspect-video">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={equity} margin={equityMargin}>
                 <CartesianGrid strokeDasharray="3 3" />
@@ -116,11 +112,11 @@ export default function Charts({ result }: { result: SimulationResult | null }) 
                     isNarrow
                       ? undefined
                       : {
-                          value: "Portfolio value",
-                          angle: -90,
-                          position: "insideLeft",
-                          offset: 10,
-                        }
+                        value: "Portfolio value",
+                        angle: -90,
+                        position: "insideLeft",
+                        offset: 10,
+                      }
                   }
                 />
                 <Tooltip
@@ -134,7 +130,6 @@ export default function Charts({ result }: { result: SimulationResult | null }) 
         </div>
       </div>
 
-      {/* Drawdown */}
       <div className="card p-5">
         <div className="flex items-baseline justify-between gap-3">
           <div>
@@ -149,9 +144,8 @@ export default function Charts({ result }: { result: SimulationResult | null }) 
           </div>
         </div>
 
-        {/* ✅ iOS-safe responsive box */}
         <div className="mt-4 w-full overflow-hidden rounded-2xl bg-white/30">
-          <div className="relative w-full aspect-[4/3] sm:aspect-[16/9]">
+          <div className="relative w-full aspect-4/3 sm:aspect-video">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={drawdown} margin={ddMargin}>
                 <CartesianGrid strokeDasharray="3 3" />
@@ -175,11 +169,11 @@ export default function Charts({ result }: { result: SimulationResult | null }) 
                     isNarrow
                       ? undefined
                       : {
-                          value: "Drawdown (% from peak)",
-                          angle: -90,
-                          position: "insideLeft",
-                          dy: 40,
-                        }
+                        value: "Drawdown (% from peak)",
+                        angle: -90,
+                        position: "insideLeft",
+                        dy: 40,
+                      }
                   }
                 />
                 <ReferenceLine y={0} stroke="#94a3b8" strokeDasharray="4 4" />
