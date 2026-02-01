@@ -201,7 +201,14 @@ export default function Charts({ result }: { result: SimulationResult | null }) 
                       x={insight.peak.date}
                       y={insight.peak.value}
                       r={4}
-                      label={{ value: "Peak", position: "top", fontSize: 11 }}
+                      label={{
+                        value: "Peak",
+                        position: "insideTop",
+                        fontSize: 11,
+                        dx: -24,
+                        dy: -6,
+                        fill: "#475569",
+                      }}
                     />
                     <ReferenceDot
                       x={insight.trough.date}
@@ -250,8 +257,14 @@ export default function Charts({ result }: { result: SimulationResult | null }) 
             </div>
           </div>
 
-          <div className="hidden sm:block rounded-full border border-(--border) bg-white/70 px-3 py-1 text-xs font-semibold text-(--muted)">
-            Worst: {pct(yMinDd)}
+          <div className="hidden sm:block shrink-0 whitespace-nowrap rounded-full border border-(--border) bg-white/70 px-3 py-1 text-xs font-semibold text-(--muted)">
+            {insight ? (
+              <>
+                Worst: {pct(insight.worstDrawdown.value)} (on {fmtMonthYear(insight.worstDrawdown.date)})
+              </>
+            ) : (
+              <>Worst: {pct(yMinDd)}</>
+            )}
           </div>
         </div>
 
